@@ -2,6 +2,7 @@ import "./App.css";
 import React, { useState } from "react";
 import { QuizButtons } from "./components/QuizButtons";
 import { QuizOption } from "./components/QuizOption";
+import { QuizQuestion } from "./components/QuizQuestion";
 
 // you can have more of this probably
 const someTestQuestions = [
@@ -25,7 +26,7 @@ const someTestQuestions = [
         correctAnswer: 1,
     },
 ];
-
+let result = 0;
 // TODO
 // 1. Introduce Quiz and Question component to allow dynamic questions
 // 2. Save user answer in the state
@@ -44,7 +45,7 @@ const Quiz = ({ questions }) => {
     const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
     // we extract current question properties based on the index of currently presented question
-    const { id: questionId, question, answers } = questions[
+    const { id: questionId, question, answers, correctAnswer } = questions[
         currentQuestionIndex
     ];
     const currentAnswerIndex = userAnswers[questionId];
@@ -115,9 +116,26 @@ const Quiz = ({ questions }) => {
         // {2: 1} -> questions: correctAnswer: 1 -> correct
         // map over the above ^ and render proper answer with green
         // and wrong answer with red
+        const sum = questions.reduce((acc, item) => {
+            return item.correctAnswer === userAnswers[item.id]
+                ? (acc += 1)
+                : acc;
+        }, 0);
+
+        console.log(sum);
         return (
             <section>
-                <div className="box">QUIZ COMPLETED</div>
+                <div className="box">
+                    <h2
+                        style={{
+                            justifyContent: "center",
+                            display: "flex",
+                            alignItems: "center",
+                        }}
+                    >
+                        {sum}
+                    </h2>
+                </div>
             </section>
         );
         /* 
@@ -138,7 +156,8 @@ const Quiz = ({ questions }) => {
     return (
         <section>
             <div className="box">
-                <h2>{question}</h2>
+                <QuizQuestion question={question} />
+
                 <div className="input-group">
                     {answers.map((answer, index) => (
                         // Make a Question component out of it

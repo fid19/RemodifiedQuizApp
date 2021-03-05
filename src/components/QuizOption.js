@@ -12,7 +12,7 @@ export const QuizOption = ({
             onClick={() => handleUserAnswers(index)}
             style={{ backgroundColor: isSelectedOption ? "yellow" : "initial" }}
         >
-            <span>{answer}</span>
+            <span className="quizButton">{answer}</span>
         </div>
     );
 };
