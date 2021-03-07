@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { QuizButtons } from "./components/QuizButtons";
 import { QuizOption } from "./components/QuizOption";
 import { QuizQuestion } from "./components/QuizQuestion";
+import { QuizResult } from "./components/QuizResult";
 
 // you can have more of this probably
 const someTestQuestions = [
@@ -26,7 +27,6 @@ const someTestQuestions = [
         correctAnswer: 1,
     },
 ];
-let result = 0;
 // TODO
 // 1. Introduce Quiz and Question component to allow dynamic questions
 // 2. Save user answer in the state
@@ -49,6 +49,8 @@ const Quiz = ({ questions }) => {
         currentQuestionIndex
     ];
     const currentAnswerIndex = userAnswers[questionId];
+    const correctAnswerIndex = correctAnswer;
+    console.log(currentAnswerIndex);
 
     // currentQuestionIndex - > 0
     // const {id,question,answers} = questions[currentQuestionIndex]
@@ -82,6 +84,7 @@ const Quiz = ({ questions }) => {
 
     const handleQuizCompleted = () => {
         setIsQuizCompleted(true);
+        setCurrentQuestionIndex(0);
     };
 
     // If the user selected an answer and we can move forward
@@ -121,20 +124,35 @@ const Quiz = ({ questions }) => {
                 ? (acc += 1)
                 : acc;
         }, 0);
+        const result = parseInt((sum / questions.length) * 100);
 
-        console.log(sum);
         return (
             <section>
-                <div className="box">
-                    <h2
-                        style={{
-                            justifyContent: "center",
-                            display: "flex",
-                            alignItems: "center",
-                        }}
-                    >
-                        {sum}
-                    </h2>
+                <div className="result-box">
+                    <QuizResult result={result} />
+                    <QuizQuestion question={question} />
+                    <div className="input-group">
+                        {answers.map((answer, index) => (
+                            <QuizOption
+                                answer={answer}
+                                index={index}
+                                key={index}
+                                value={index}
+                                currentAnswerIndex={currentAnswerIndex}
+                                userAnswers={userAnswers}
+                                handleUserAnswers={handleUserAnswers}
+                                isQuizCompleted={isQuizCompleted}
+                                correctAnswerIndex={correctAnswerIndex}
+                            />
+                        ))}
+                    </div>
+                    <QuizButtons
+                        isPrevDisabled={isPrevDisabled}
+                        handlePreviousClick={handlePreviousClick}
+                        isNextDisabled={isNextDisabled}
+                        isLastQuestion={isLastQuestion}
+                        handleNextClick={handleNextClick}
+                    />
                 </div>
             </section>
         );
