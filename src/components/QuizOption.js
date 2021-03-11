@@ -9,33 +9,15 @@ export const QuizOption = ({
     correctAnswerIndex,
 }) => {
     const isSelectedOption = currentAnswerIndex === index;
-    const isCorrect = correctAnswerIndex === index;
     return (
-        <div>
-            {isQuizCompleted ? (
-                <div
-                    style={{
-                        backgroundColor: isCorrect
-                            ? "green"
-                            : isSelectedOption
-                            ? "red"
-                            : "initial",
-                    }}
-                >
-                    <span className="quizButtonCompleted">{answer}</span>
-                </div>
-            ) : (
-                <div
-                    onClick={() => handleUserAnswers(index)}
-                    style={{
-                        backgroundColor: isSelectedOption
-                            ? "yellow"
-                            : "initial",
-                    }}
-                >
-                    <span className="quizButton">{answer}</span>
-                </div>
-            )}
+        <div
+            onClick={() => handleUserAnswers(index)}
+            style={{
+                backgroundColor: isSelectedOption ? "yellow" : "initial",
+                transition: "all 0.4s ease",
+            }}
+        >
+            <span className="quizButton">{answer}</span>
         </div>
     );
 };

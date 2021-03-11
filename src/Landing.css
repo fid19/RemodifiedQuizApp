@@ -1,0 +1,94 @@
+header {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.landingPage {
+    max-width: 700px;
+    margin: auto;
+    height: 50vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btnbutton {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btnStyle {
+    text-decoration: none;
+    display: flex;
+    color: burlywood;
+    font-size: 18px;
+    border: 2px solid burlywood;
+    border-radius: 10px;
+    padding: 10px 0px;
+    overflow: hidden;
+    width: 40%;
+    justify-content: center;
+    margin-bottom: 15px;
+    transition: 1s all ease;
+}
+
+/* .btnStyle::before {
+    background: burlywood;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    transition: all 0.6s ease;
+} */
+
+.btnStyle1:hover {
+    width: 40%;
+    height: 40%;
+    transform: translate(0%, 0%) rotate(10deg);
+    background-color: burlywood;
+    color: white;
+    text-decoration: underline;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+}
+
+.btnStyle2:hover {
+    width: 40%;
+    height: 40%;
+    transform: translate(0%, 0%) rotate(-10deg);
+    background-color: burlywood;
+    color: white;
+    text-decoration: underline;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+}
+.Link {
+    flex-basis: 33.3333%;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(222, 184, 135, 0.781);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: burlywood;
+}
