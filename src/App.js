@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import { LandingPage } from "./LandingPage";
 import { Quiz } from "./Quiz";
+import { QuizRender } from "./components/QuizRender";
 
 // 1. react-router-dom (npm library) for routing system
 // 2. The above is using history API from the browser
@@ -27,6 +28,9 @@ export const App = () => {
                     {/* Dynamic way /quiz/:id */}
                     <Route path="/quiz/:id">
                         <Quiz />
+                    </Route>
+                    <Route path="/quiz/:id/:questionTagNo">
+                        <QuizRender />
                     </Route>
                     <Redirect to="/" />
                 </Switch>

@@ -1,12 +1,8 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { QuizButtons } from "./components/QuizButtons";
-import { QuizOption } from "./components/QuizOption";
-import { QuizQuestion } from "./components/QuizQuestion";
-import { QuizResult } from "./components/QuizResult";
-import { Link } from "react-router-dom";
-
+import { QuizRender } from "./components/QuizRender";
+import { QuizCompleted } from "./components/QuizCompleted";
 // TODO
 // 1. Introduce Quiz and Question component to allow dynamic questions
 // 2. Save user answer in the state
@@ -128,6 +124,20 @@ const data = {
 
 // Maybe you will have more quizzes in the future
 export const Quiz = () => {
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        fetchItems();
+    }, []);
+
+    const fetchItems = async () => {
+        const data = await fetch(
+            "https://opentdb.com/api.php?amount=10&category=19&difficulty=medium&type=multiple"
+        );
+        const items = await data.json();
+        setItems(items);
+    };
+
     // we store where we are, e.g. what question is displayed on the screen via index
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     // we store what user is selecting, which answers exactly so later on we can compare and show if the answer is good or bad
@@ -145,6 +155,7 @@ export const Quiz = () => {
         }
     }, [id]);
 
+    console.log(items);
     // We're loading questions dynamically now, which means they could be empty
     // We need to prevent it from happening and crashing
 
@@ -241,74 +252,32 @@ export const Quiz = () => {
 
         return (
             <section>
-                <div className="result-box">
-                    <QuizResult result={result} />
-                    {questions.map((question, questionIndex) => (
-                        <div key={questionIndex}>
-                            <h2>{question.question}</h2>
-                            <div className="input-group">
-                                {answers.map((answer, answerIndex) => (
-                                    <div
-                                        style={{
-                                            backgroundColor: isCorrect(
-                                                questionIndex,
-                                                answerIndex
-                                            )
-                                                ? "green"
-                                                : isSelectedOption(
-                                                      questionIndex,
-                                                      answerIndex
-                                                  )
-                                                ? "red"
-                                                : "intial",
-                                        }}
-                                        key={answerIndex}
-                                    >
-                                        <span className="quizCompleteButton">
-                                            {answer}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                    <Link to="/" className="quizHover">
-                        Start New Quiz
-                    </Link>
-                </div>
+                <QuizCompleted
+                    result={result}
+                    questions={questions}
+                    answers={answers}
+                    isCorrect={isCorrect}
+                    isSelectedOption={isSelectedOption}
+                />
             </section>
         );
     }
 
     return (
         <section>
-            <div className="box">
-                <QuizQuestion question={question} />
-
-                <div className="input-group">
-                    {answers.map((answer, index) => (
-                        // Make a Question component out of it
-                        <QuizOption
-                            answer={answer}
-                            handleUserAnswers={handleUserAnswers}
-                            index={index}
-                            key={index}
-                            value={index}
-                            userAnswers={userAnswers}
-                            currentAnswerIndex={currentAnswerIndex}
-                        />
-                    ))}
-                </div>
-                {/* Extract to QuizButtons component */}
-                <QuizButtons
-                    isPrevDisabled={isPrevDisabled}
-                    handlePreviousClick={handlePreviousClick}
-                    isNextDisabled={isNextDisabled}
-                    isLastQuestion={isLastQuestion}
-                    handleQuizCompleted={handleQuizCompleted}
-                    handleNextClick={handleNextClick}
-                />
-            </div>
+            <QuizRender
+                question={question}
+                answers={answers}
+                handleUserAnswers={handleUserAnswers}
+                currentAnswerIndex={currentAnswerIndex}
+                isPrevDisabled={isPrevDisabled}
+                handlePreviousClick={handlePreviousClick}
+                isNextDisabled={isNextDisabled}
+                isLastQuestion={isLastQuestion}
+                handleQuizCompleted={handleQuizCompleted}
+                handleNextClick={handleNextClick}
+                userAnswers={userAnswers}
+            />
         </section>
     );
 };
